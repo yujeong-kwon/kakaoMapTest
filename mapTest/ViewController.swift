@@ -20,6 +20,9 @@ class ViewController: UIViewController, MTMapViewDelegate, CLLocationManagerDele
     
     var locationManager: CLLocationManager!
     
+    var dataList:[[String]] = []
+    var List2:[[Double]] = []
+    
     /*
     
     var lo: Double!
@@ -43,8 +46,8 @@ class ViewController: UIViewController, MTMapViewDelegate, CLLocationManagerDele
         }
     }
     */
-    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         //Info.plist 설정
         //현재 위도경도 가져와서 사용할 경우 -> la! lo! 하면 됨
@@ -81,6 +84,7 @@ class ViewController: UIViewController, MTMapViewDelegate, CLLocationManagerDele
             //mapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: 37.576568, longitude: 127.029148)), zoomLevel: 4, animated: true)
             view.addSubview(mapView)
             
+            /*
             //MTMapPOIItem 객체 생성 -> 마커 추가
             self.mapPoint1 = MTMapPoint(geoCoord: MTMapPointGeo(latitude: 36.836004972187524, longitude: 127.15052268865131))
             poiItem1 = MTMapPOIItem()
@@ -95,11 +99,52 @@ class ViewController: UIViewController, MTMapViewDelegate, CLLocationManagerDele
             mapView.add(poiItem1)
             //mapView.addPOIItems([poiItem1])
             mapView.fitAreaToShowAllPOIItems()
+             */
+            let geocoder = CLGeocoder()
+            let path = Bundle.main.path(forResource: "data", ofType: "csv")!
+            do{
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let dataEncoded = String(data: data, encoding: .utf8)
+                if let dataArr = dataEncoded?.components(separatedBy: "\n").map({$0.components(separatedBy: ",")}){
+                    for (index, item) in dataArr.enumerated(){
+                        if index == 0{
+                            continue
+                        }
+                        dataList.append(item)
+                    }
+                }
+            }catch{
+                print("Error reading")
+            }
+            
+            for item in dataList{
+                AdressToPoint(address: item[10], name: item[2])
+            }
             
         }
-    
+        
+        
     }
-    
+    //그냥 반복문안에 넣으니까 반복문 안먹음 -> 함수로 빼기
+    func AdressToPoint(address: String, name: String){
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address){ [self](placemark, error)in
+            guard error == nil else {return print(error!.localizedDescription)}//에러코드가 없으면 아래코드 실행
+            guard let location = placemark?.first?.location else {
+                return print("데이터가 없습니다")
+            }
+            self.createPin(itemName: name, getla: location.coordinate.latitude, getlo: location.coordinate.longitude, markerType: .redPin)
+        }
+    }
+    func createPin(itemName:String, getla: Double, getlo: Double, markerType:MTMapPOIItemMarkerType){
+        let poiItem = MTMapPOIItem()
+        poiItem.itemName = "\(itemName)"
+        poiItem.mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: getla, longitude: getlo))
+        poiItem.markerType = markerType
+        
+        mapView?.addPOIItems([poiItem])
+       
+    }
 /*
     //poiItem 클릭 이벤트
     func mapView(_ mapView: MTMapView!, touchedCalloutBalloonOf poiItem: MTMapPOIItem!) {
@@ -123,12 +168,17 @@ class ViewController: UIViewController, MTMapViewDelegate, CLLocationManagerDele
      * @param location 사용자 단말의 현재 위치 좌표
      * @param accuracy 현위치 좌표의 오차 반경(정확도) (meter)
      */
+    
+    
+    /*
     func mapView(_ mapView: MTMapView!, updateCurrentLocation location: MTMapPoint!, withAccuracy accuracy: MTMapLocationAccuracy) {
         let currentLocation = location?.mapPointGeo()
         if let latitude = currentLocation?.latitude, let longitude = currentLocation?.longitude{
             print("테스트MTMapView updateCurrentLocation (\(latitude),\(longitude)) accuracy(\(accuracy))")
         }
     }
+    */
+    
     
     /*
     //데이터를 배열로 담아와서 반복문으로 .x .y로 여러개 마커 추가
@@ -143,7 +193,7 @@ class ViewController: UIViewController, MTMapViewDelegate, CLLocationManagerDele
         poiItem1?.itemName = "test"
         //태그 설정
         poiItem1?.tag = cnt
-        //맵뷰에 추가!
+        //맵뷰에 추가
         mapView!.add(poiItem1)
         cnt += 1
         

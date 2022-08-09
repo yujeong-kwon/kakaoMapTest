@@ -48,6 +48,7 @@
 		C76CE9F0289E524A00B16F98 /* daum_th_line.png in Resources */ = {isa = PBXBuildFile; fileRef = C76CE9D4289E524A00B16F98 /* daum_th_line.png */; };
 		C76CE9F1289E524A00B16F98 /* map_pin_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = C76CE9D5289E524A00B16F98 /* map_pin_shadow.png */; };
 		C76CE9F2289E524A00B16F98 /* DaumMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76CE9D6289E524A00B16F98 /* DaumMap.framework */; };
+		C76CE9F428A2C7B300B16F98 /* data.csv in Resources */ = {isa = PBXBuildFile; fileRef = C76CE9F328A2C7B300B16F98 /* data.csv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -117,6 +118,7 @@
 		C76CE9D4289E524A00B16F98 /* daum_th_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daum_th_line.png; sourceTree = "<group>"; };
 		C76CE9D5289E524A00B16F98 /* map_pin_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_pin_shadow.png; sourceTree = "<group>"; };
 		C76CE9D6289E524A00B16F98 /* DaumMap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DaumMap.framework; sourceTree = "<group>"; };
+		C76CE9F328A2C7B300B16F98 /* data.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = data.csv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 		C76CE9572899890200B16F98 /* mapTest */ = {
 			isa = PBXGroup;
 			children = (
+				C76CE9F328A2C7B300B16F98 /* data.csv */,
 				C76CE9582899890200B16F98 /* AppDelegate.swift */,
 				C76CE95A2899890200B16F98 /* SceneDelegate.swift */,
 				C76CE95C2899890200B16F98 /* ViewController.swift */,
@@ -320,6 +323,7 @@
 				C76CE9F1289E524A00B16F98 /* map_pin_shadow.png in Resources */,
 				C76CE9E4289E524A00B16F98 /* map_present_tracking.png in Resources */,
 				C76CE9DB289E524A00B16F98 /* detail_button.png in Resources */,
+				C76CE9F428A2C7B300B16F98 /* data.csv in Resources */,
 				C76CE9EE289E524A00B16F98 /* noimage.png in Resources */,
 				C76CE9E0289E524A00B16F98 /* th_line.png in Resources */,
 				C76CE9E9289E524A00B16F98 /* info_box_tail.png in Resources */,
